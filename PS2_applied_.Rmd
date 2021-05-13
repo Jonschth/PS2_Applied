@@ -11,6 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(testthat)
 library(dplyr)
 library(ggplot2)
+library(tidyr)
 ```
 
 
@@ -27,6 +28,7 @@ df_parking_tickets <- read.table("parking_tickets_one_percent.txt", sep=",", hea
 # Stop the clock
 proc.time() - ptm
 
+df_parking_tickets
 glimpse(df_parking_tickets)
 df_parking_tickets%>%head(100)
 ```
@@ -86,33 +88,28 @@ ggplot(most_frequent_violations,aes(violation_description,y=n))+
 
 
 
-df_parking_tickets%>%
-  mutate(Reporting.District<-as.character(unit))
-
-df_parking_tickets%>% head()
+1.3.2
 
 
 
 ```{r}
 df_unit_key <- read.csv("unit_key.csv")
-df_unit_key
 
-df_parking_tickets$"Reporting.District"<-toString(df_parking_tickets$"unit")
-
+# need to introduce a new variable unit to df_unit_key that is an integer as the previous variable "Reporting.District" is a character variable.
 df_unit_key$unit<-as.integer(df_unit_key$"Reporting.District")
 
-df_unit_key
 ```
+
+
+there are 385 units
+
+1.3.3
+
 
 ```{r}
+df_join<-inner_join(df_parking_tickets, df_unit_key, by="unit")
 
-
-df_parking_tickets$"Reporting.District"<-toString(df_parking_tickets$"unit")
-
-df_parking_tickets
-
+df_join %>% drop_na(unit)
 ```
 
-
-
-
+There are 287458 rows in the orignal table. In the new table there are 287429 rows.  The number of rows that have no units are therefore 29
