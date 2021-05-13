@@ -7,6 +7,12 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r}
+library(testthat)
+```
+
+
+
 1.1.1
                  
 ```{r}
@@ -14,7 +20,7 @@ knitr::opts_chunk$set(echo = TRUE)
 # Start the clock!
 ptm <- proc.time()
 
-df_parking_tickets <- read.table("parking_tickets_one_percent.txt", sep=",")
+df_parking_tickets <- read.table("parking_tickets_one_percent.txt", sep=",", header=True)
 
 # Stop the clock
 proc.time() - ptm
@@ -24,6 +30,22 @@ glimpse(df_parking_tickets)
 It takes 3.05 to read the file.
 
 
+```{r}
+test_that("Number of parking rows:", {
+  nrow(df_parking_tickets) 
+  287458
+})
+```
 
 
+
+
+
+```{r}
+
+```
+
+
+```{r}
+```
 
