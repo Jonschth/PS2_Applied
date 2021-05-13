@@ -20,7 +20,7 @@ library(testthat)
 # Start the clock!
 ptm <- proc.time()
 
-df_parking_tickets <- read.table("parking_tickets_one_percent.txt", sep=",", header=True)
+df_parking_tickets <- read.table("parking_tickets_one_percent.txt", sep=",", header=TRUE)
 
 # Stop the clock
 proc.time() - ptm
@@ -32,7 +32,7 @@ It takes 3.05 to read the file.
 
 ```{r}
 test_that("Number of parking rows:", {
-  nrow(df_parking_tickets) 
+  nrow(df_parking_tickets)
   287458
 })
 ```
