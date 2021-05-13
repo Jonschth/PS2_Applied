@@ -1,0 +1,29 @@
+---
+title: "PS2_Applied_"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1.1.1
+                 
+```{r}
+
+# Start the clock!
+ptm <- proc.time()
+
+df_parking_tickets <- read.table("parking_tickets_one_percent.txt", sep=",")
+
+# Stop the clock
+proc.time() - ptm
+
+glimpse(df_parking_tickets)
+```
+It takes 3.05 to read the file.
+
+
+
+
+
