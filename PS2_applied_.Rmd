@@ -98,6 +98,8 @@ df_unit_key <- read.csv("unit_key.csv")
 # need to introduce a new variable unit to df_unit_key that is an integer as the previous variable "Reporting.District" is a character variable.
 df_unit_key$unit<-as.integer(df_unit_key$"Reporting.District")
 
+df_unit_key
+
 ```
 
 
@@ -109,7 +111,38 @@ there are 385 units
 ```{r}
 df_join<-inner_join(df_parking_tickets, df_unit_key, by="unit")
 
-df_join %>% drop_na(unit)
+df_join_na<-
+  df_join %>% drop_na(unit)
+
+df_join_na 
 ```
 
-There are 287458 rows in the orignal table. In the new table there are 287429 rows.  The number of rows that have no units are therefore 29
+There are 287458 rows in the orignal table. In the new table there are 287429 rows.  The number of rows that have no units are therefore 29.
+
+1.3.4.
+
+```{r}
+df_departments<-
+  df_join_na %>%
+  group_by(Department.Category) %>%
+  summarise(n=n()) %>%
+  arrange((desc(n)))
+
+df_departments
+```
+
+Chicago police issued 127,078 tickets, Department of Finance issues 106,483 tickets.  Therefore Chicago police issued more tickents
+
+```{r}
+df_departments_CPD<-
+  df_join_na %>%
+  filter(Department.Category=="CPD") %>%
+  group_by(unit) %>%
+  summarise(n=n()) %>%
+  arrange((desc(n)))
+
+df_departments_CPD
+```
+
+
+
