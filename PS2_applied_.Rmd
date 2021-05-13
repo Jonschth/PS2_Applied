@@ -10,6 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library(testthat)
 library(dplyr)
+library(ggplot2)
 ```
 
 
@@ -58,13 +59,27 @@ na_count
 ```
 
 
+1.2.1 the number of tickets that were issues in the 1pct file were 287458.  Based on that the number of tickets issued in 2017 were 2,874,580 in Chicago.  The article states that the city of Chicago issues annually more than 3 million tickets.  This is not a significant difference as the article was written early in the year 2018 and exact information may not have been avaialble. 2.8 million is not far away from 3 million anyway.
 
+1.2.2
+Most frequent types of violations
 
 ```{r}
+most_frequent_violations <- df_parking_tickets%>%
+  group_by(violation_description)%>%
+  summarise(n=n())%>% 
+  arrange(desc(n))%>%
+  head(20)
+
+most_frequent_violations
+ggplot(most_frequent_violations,aes(violation_description,y=n))+
+  geom_bar(stat="identity")+
+  theme(axis.text=element_text(angle=45, hjust=1))
+
+
+
 
 ```
 
 
-```{r}
-```
 
