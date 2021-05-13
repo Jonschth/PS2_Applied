@@ -9,6 +9,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 library(testthat)
+library(dplyr)
 ```
 
 
@@ -26,6 +27,7 @@ df_parking_tickets <- read.table("parking_tickets_one_percent.txt", sep=",", hea
 proc.time() - ptm
 
 glimpse(df_parking_tickets)
+df_parking_tickets%>%head(100)
 ```
 It takes 3.05 to read the file.
 
