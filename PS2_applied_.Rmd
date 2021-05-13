@@ -141,8 +141,10 @@ df_departments_CPD<-
   summarise(n=n()) %>%
   arrange((desc(n)))
 
-df_departments_CPD
+df_departments_CPD %>%
+  head(5)
 ```
+1.4.1
 
 
 
