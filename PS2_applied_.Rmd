@@ -32,11 +32,28 @@ It takes 3.05 to read the file.
 
 ```{r}
 test_that("Number of parking rows:", {
-  nrow(df_parking_tickets)
-  287458
+  nrow(df_parking_tickets)==287458
 })
 ```
 
+1.1.2
+
+The file is 79.8 mb
+
+the full data set is 100 times this data set.
+The number of rows is therefore 2,874,580 and the size of the file is 798 mb.
+
+1.1.3
+
+
+
+```{r}
+na_count <-sapply(df_parking_tickets, function(y) sum(length(which(is.na(y)))))
+
+na_count<-data.frame(na_count)
+
+na_count
+```
 
 
 
