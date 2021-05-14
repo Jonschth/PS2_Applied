@@ -12,6 +12,7 @@ library(testthat)
 library(dplyr)
 library(ggplot2)
 library(tidyr)
+library(tidycensus)
 ```
 
 
@@ -146,5 +147,15 @@ df_departments_CPD %>%
 ```
 1.4.1
 
+
+```{r}
+census_api_key("7b144a5d849b2f47475f9c1e44514c692f0246d0")
+
+v17 <- load_variables(2017, "acs5", cache = TRUE)
+
+View(v17)
+
+
+```
 
 
