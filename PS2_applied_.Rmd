@@ -13,6 +13,7 @@ library(dplyr)
 library(ggplot2)
 library(tidyr)
 library(tidycensus)
+library(lubridate)
 ```
 
 
@@ -287,7 +288,7 @@ old violation code and description:
 
 
 new violation code and description:
-0964125B NO CITY STICKER VEHICLE UNDER/EQUAL TO 16,000 LBS. fine level I: 200  Fine level II : 400
+"0964125B" NO CITY STICKER VEHICLE UNDER/EQUAL TO 16,000 LBS. fine level I: 200  Fine level II : 400
 
 
 Went into effect: 	
@@ -295,6 +296,66 @@ Went into effect:
 
 
 2.2.2.
+
+```{r}
+df_parking_tickets%>%
+  filter(violation_code=="0964125" | violation_code=="0964125B") %>%
+  mutate(date=as.Date(issue_date))%>%
+  group_by(month=floor_date(date, "month"),violation_code) %>%
+  summarize(n=n())%>%
+  ggplot(aes(x=month,y=n, color=violation_code))+
+  geom_point()
+
+
+
+
+
+```
+2.2.3
+the price increase went into effect:
+
+2012-02-25 00:00:00
+
+
+2.2.4.
+```{r}
+df_parking_tickets%>%
+  filter(violation_code=="0964125" | violation_code=="0964125B") %>%
+  mutate(date=as.Date(issue_date))%>%
+  filter(date >= as.Date("2011-02-25"),date <= as.Date("2012-02-24" )) %>%
+  summarise(n=n())
+
+
+
+```
+If 1% of the tickets were about 1917, then he total number of tickets per year were 191,700.  The higher fine did not induce more ticket sales, so the revenue only increased by the increase in fines = 200,000(new fine amoun less the old fine amount) = 191,700 * ($200-$120) = $15,336,000
+
+
+2.2.5 & 2.2.6
+
+Repayment rates
+
+
+```{r}
+df_parking_tickets%>%
+  filter(violation_code=="0964125" | violation_code=="0964125B") %>%
+  mutate(date=as.Date(issue_date))%>%
+  mutate(payment_due=(current_amount_due>0))%>%
+  group_by(month=floor_date(date, "month"),violation_code) %>%
+  summarize(n=n(), p_d=sum(payment_due))%>%
+  mutate(payment_rates=p_d/n*100)%>%
+  ggplot(aes(x=month,y=payment_rates, color=violation_code))+
+  geom_point()+
+  geom_vline(xintercept = as.Date("2012-02-24"), linetype="dotted", 
+                color = "blue", size=1.5)
+  
+```
+
+
+2.2.6
+
+
+
 
 
 
