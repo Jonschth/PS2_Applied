@@ -343,7 +343,7 @@ df_parking_tickets%>%
   mutate(payment_due=(current_amount_due>0))%>%
   group_by(month=floor_date(date, "month"),violation_code) %>%
   summarize(n=n(), p_d=sum(payment_due))%>%
-  mutate(payment_rates=p_d/n*100)%>%
+  mutate(payment_rates=((1-p_d/n)*100))%>%
   ggplot(aes(x=month,y=payment_rates, color=violation_code))+
   geom_point()+
   geom_vline(xintercept = as.Date("2012-02-24"), linetype="dotted", 
@@ -351,8 +351,43 @@ df_parking_tickets%>%
   
 ```
 
+repayment rates per year
 
-2.2.6
+
+```{r}
+df_parking_tickets%>%
+  filter(violation_code=="0964125" | violation_code=="0964125B") %>%
+  mutate(date=as.Date(issue_date))%>%
+  mutate(payment_due=(current_amount_due>0))%>%
+  group_by(year=floor_date(date, "year"),violation_code) %>%
+  summarize(n=n(), p_d=sum(payment_due))%>%
+  mutate(payment_rates=((1-p_d/n)*100))
+
+```
+in 2011 the tickets were 1933
+Revenue from the fines were 1933*66.6%*120*100 = 5,464,000
+
+at the new repayment rates this would have been
+                            1933*52.5%*200*100 = 20,296,500
+
+
+in 2011 the tickets were 
+Revenue from the fines were (-1191)*200*100 = 15,444,00
+
+
+2.2.7
+
+I would have fucused on higher rates for luxury cars as the owners could have afforded it
+I would have given those that were driving cars with value of less than $1,000 free tickets
+I would have had higher rates for cars with more pollution, size
+
+
+2.2.8
+
+street cleaning, snow routes etc, expired meters in business district
+residential permits
+
+
 
 
 
